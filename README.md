@@ -7,22 +7,18 @@ intended to work alongside [`bass`](https://github.com/luislavaire/bass), though
 
 
 - Packages are installed in `~/.shop/`.
-- Packages are downloaded from Github.
+- Packages are hosted on Github.
 
 
 ## Usage.
 
 ### Adding packages.
 
-The tag or branch name is optional, as well as the import name.
-
 ```
-shop i <user/repo>[/branch] [name]
+shop i <user/repo>[/<tag|branch>]
 ```
 
 ### Updating packages.
-
-If no packages are specified, update all packages.
 
 ```
 shop u [pkgs]
@@ -30,8 +26,11 @@ shop u [pkgs]
 
 ### Removing packages.
 
-Remove the specified packages.
+```
+shop r [pkgs]
+```
 
-```
-shop r <pkg> [pkgs]
-```
+
+## Package repository structure.
+
+Files that are to be consumed by users must be placed under `lib/`.
