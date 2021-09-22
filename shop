@@ -4,11 +4,14 @@
 i () {
     for P; do
         IFS=/ read u r t <<< "$P"
-        test "$t" && git clone --depth 1 "https://github.com/$u/$r" -b "$b" "$u/$r-$t" \
-                  || git clone --depth 1 "https://github.com/$u/$r" "$u/$r"
+        test "$t" && { D=~/"$u/$r-$t"; git clone --depth 1 "https://github.com/$u/$r" -b "$b" "$D"; } \
+                  || { D=~/"$u/$r";    git clone --depth 1 "https://github.com/$u/$r" "$D"; }
 
-        test -f "$P/deps" &&
-            while read d; do i "$d"; done < "$P/deps"
+        test -f "$D/deps" &&
+            while read d; do i "$d"; done < "$D/deps"
+
+        test -d "$D/bin" &&
+            find "$D/bin" -maxdepth 1 -mindepth 1 -type f -or -type l -perm -u+x -exec ln -sf {} ~/.shop/.bin \;
     done
 }
 
@@ -18,7 +21,7 @@ l () { printf "%s\n" */*; }
 
 
 shopt -s nullglob
-mkdir -p ~/.shop ; cd ~/.shop
+mkdir -p ~/.shop; cd ~/.shop
 
 case "$1" in ( [iurl] ) "$@";;
 

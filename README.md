@@ -7,8 +7,13 @@ intended to work alongside [`bass`](https://github.com/luislavaire/bass), though
 
 
 - Packages are installed in `~/.shop/`.
-- Packages are hosted on Github.
+- Packages are hosted in Github.
 
+
+## Installation.
+
+Just add `shop` somewhere in your `$PATH`. Append `export PATH=$PATH:~/.shop/.bin`
+to your shell's startup file (e.g., `.bashrc` if your shell is `bash`).
 
 ## Usage.
 
@@ -24,5 +29,6 @@ intended to work alongside [`bass`](https://github.com/luislavaire/bass), though
 ## Package repository structure.
 
 - Files that are to be consumed by users must be placed under `lib/`.
+- Executable files in `bin/` will be available in `$PATH`.
 - Dependencies, if any, should be listed in `deps`, in this format: `user/repo[/tag]`;
   one per line.
