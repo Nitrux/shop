@@ -14,7 +14,7 @@ intended to work alongside [`bass`](https://github.com/luislavaire/bass), though
 
 `shop [CMD]`, where `CMD` is any of:
 
-- `i [pkgs]`: Install the given packages. `shop` understands this format: _<user/repo>[/tag]_.
+- `i [pkgs]`: Install the given packages. `shop` understands this format: `<user/repo>[/tag]`.
   If `/tag` is given, the package will be installed as `user/repo-tag`. Otherwise, as `user/repo`.
 - `u [pkgs]`: Update all or the given packages.
 - `r [pkgs]`: Remove the given packages.
