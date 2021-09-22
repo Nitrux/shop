@@ -12,25 +12,18 @@ intended to work alongside [`bass`](https://github.com/luislavaire/bass), though
 
 ## Usage.
 
-### Adding packages.
+`shop [CMD]`, where `CMD` is any of:
 
-```
-shop i <user/repo>[/<tag|branch>]
-```
-
-### Updating packages.
-
-```
-shop u [pkgs]
-```
-
-### Removing packages.
-
-```
-shop r [pkgs]
+- `i [pkgs]`: Install the given packages. `shop` understands this format: _<user/repo>[/tag]_.
+  If `/tag` is given, the package will be installed as `user/repo-tag`. Otherwise, as `user/repo`.
+- `u [pkgs]`: Update all or the given packages.
+- `r [pkgs]`: Remove the given packages.
+- `l`: List installed packages.
 ```
 
 
 ## Package repository structure.
 
-Files that are to be consumed by users must be placed under `lib/`.
+- Files that are to be consumed by users must be placed under `lib/`.
+- Dependencies, if any, should be listed in `deps`, in this format: `user/repo[/tag]`;
+  one per line.
