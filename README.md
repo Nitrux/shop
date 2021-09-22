@@ -19,7 +19,6 @@ intended to work alongside [`bass`](https://github.com/luislavaire/bass), though
 - `u [pkgs]`: Update all or the given packages.
 - `r [pkgs]`: Remove the given packages.
 - `l`: List installed packages.
-```
 
 
 ## Package repository structure.
