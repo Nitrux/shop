@@ -31,5 +31,3 @@ to your shell's startup file (e.g., `.bashrc` if your shell is `bash`).
 
 - Files that are to be consumed by users must be placed under `lib/`.
 - Executable files in `bin/` will be available in `$PATH`.
-- Dependencies, if any, should be listed in `deps`, in this format: `user/repo[/tag]`;
-  one per line.

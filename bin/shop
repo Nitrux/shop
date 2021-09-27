@@ -7,8 +7,8 @@ i () {
         test "$t" && { D="$u/$r-$t"; git clone --depth 1 "https://github.com/$u/$r" -b "$b" "$D"; } \
                   || { D="$u/$r";    git clone --depth 1 "https://github.com/$u/$r" "$D"; }
 
-        test -f "$D/deps" && while read d; do i "$d"; done < "$D/deps"
-        test -d "$D/bin" && find "$D/bin" -maxdepth 1 -mindepth 1 -type f -or -type l -perm -u+x -exec ln -sf {} ~/.shop/.bin \;
+        test -d "$D/bin" \
+            && find "$D/bin" -maxdepth 1 -mindepth 1 -type f -or -type l -perm -u+x -exec ln -sf {} ~/.shop/.bin \;
     done
 }
 
