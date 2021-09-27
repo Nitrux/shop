@@ -4,18 +4,16 @@
 i () {
     for P; do
         IFS=/ read u r t <<< "$P"
-        test "$t" && { D=~/"$u/$r-$t"; git clone --depth 1 "https://github.com/$u/$r" -b "$b" "$D"; } \
-                  || { D=~/"$u/$r";    git clone --depth 1 "https://github.com/$u/$r" "$D"; }
+        test "$t" && { D="$u/$r-$t"; git clone --depth 1 "https://github.com/$u/$r" -b "$b" "$D"; } \
+                  || { D="$u/$r";    git clone --depth 1 "https://github.com/$u/$r" "$D"; }
 
-        test -f "$D/deps" &&
-            while read d; do i "$d"; done < "$D/deps"
-
-        test -d "$D/bin" &&
-            find "$D/bin" -maxdepth 1 -mindepth 1 -type f -or -type l -perm -u+x -exec ln -sf {} ~/.shop/.bin \;
+        test -f "$D/deps" && while read d; do i "$d"; done < "$D/deps"
+        test -d "$D/bin" && find "$D/bin" -maxdepth 1 -mindepth 1 -type f -or -type l -perm -u+x -exec ln -sf {} ~/.shop/.bin \;
     done
 }
 
-u () { test $# = 0 && set */*; for d; do (cd "$d"; git pull); done; }
+u () { for U; do cd ~/.shop/${U:-*}; git pull; done; }
+
 r () { rm -rf "$@"; }
 l () { printf "%s\n" */*; }
 

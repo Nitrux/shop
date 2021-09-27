@@ -15,6 +15,7 @@ intended to work alongside [`bass`](https://github.com/luislavaire/bass), though
 Just add `shop` somewhere in your `$PATH`. Append `export PATH=$PATH:~/.shop/.bin`
 to your shell's startup file (e.g., `.bashrc` if your shell is `bash`).
 
+
 ## Usage.
 
 `shop [CMD]`, where `CMD` is any of:
