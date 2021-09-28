@@ -2,7 +2,7 @@
 
 > _Minimal package manager for UNIX shells._
 
-`shop` is an unencumbered package manager for UNIX shells (`bash`, `mksh`, etc.),
+`shop` is a simplistic package manager for UNIX shells (`bash`, `mksh`, etc.),
 intended to work alongside [`bass`](https://github.com/luislavaire/bass), though the latter is not required.
 
 
