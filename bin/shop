@@ -21,19 +21,20 @@ l () { printf "%s\n" */*; }
 shopt -s nullglob
 mkdir -p ~/.shop; cd ~/.shop
 
-case "$1" in ( [iurl] ) "$@";;
+case "$1" in
+    ( [iurl] )  "$@";;
 
-             ( * ) _ () { printf '%b\n' "$@"; }
-                   _ "Usage: shop [\e[3;32mCMD\e[m]"
-                   _ ""
-                   _ "\e[3;32mCMD\e[m is any of:"
-                   _ ""
-                   _ "  i [pkgs]   Install the given packages."
-                   _ "             shop understands this format: \e[3;32m<user/repo>[/tag]\e[m."
-                   _ "             If \e[3;32m/tag\e[m is given, the package will be installed"
-                   _ "             as \e[3;32muser/repo-tag\e[m. Otherwise, as \e[3;32muser/repo\e[m."
-                   _ "  u [pkgs]   Update all or the given packages."
-                   _ "  r [pkgs]   Remove the given packages."
-                   _ "  l          List installed packages."
-                   exit 1;;
-             esac
+    ( * )       _ () { printf '%b\n' "$@"; }
+                _ "Usage: shop [\e[3;32mCMD\e[m]"
+                _ ""
+                _ "\e[3;32mCMD\e[m is any of:"
+                _ ""
+                _ "  i [pkgs]   Install the given packages."
+                _ "             shop understands this format: \e[3;32m<user/repo>[/tag]\e[m."
+                _ "             If \e[3;32m/tag\e[m is given, the package will be installed"
+                _ "             as \e[3;32muser/repo-tag\e[m. Otherwise, as \e[3;32muser/repo\e[m."
+                _ "  u [pkgs]   Update all or the given packages."
+                _ "  r [pkgs]   Remove the given packages."
+                _ "  l          List installed packages."
+                exit 1;;
+esac
