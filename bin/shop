@@ -18,8 +18,8 @@ r () { rm -rf "$@"; }
 l () { printf "%s\n" */*; }
 
 
-shopt -s nullglob
-mkdir -p ~/.shop; cd ~/.shop
+mkdir -p ~/.shop/.bin
+cd ~/.shop
 
 case "$1" in
     ( [iurl] )  "$@";;
