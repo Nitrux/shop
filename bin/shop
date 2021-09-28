@@ -8,7 +8,7 @@ i () {
                   || { D="$u/$r";    git clone --depth 1 "https://github.com/$u/$r" "$D"; }
 
         test -d "$D/bin" \
-            && find "$D/bin" -maxdepth 1 -mindepth 1 -type f -perm -u+x -exec ln -sf {} ~/.shop/.bin \;
+            && find "$D/bin" -maxdepth 1 -mindepth 1 -type f -perm -u+x -exec ln -sf ~/.shop/{} ~/.shop/.bin \;
     done
 }
 
