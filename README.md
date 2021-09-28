@@ -12,8 +12,8 @@ intended to work alongside [`bass`](https://github.com/luislavaire/bass), though
 
 ## Installation.
 
-Just add `shop` somewhere in your `$PATH`. Append `export PATH=$PATH:~/.shop/.bin`
-to your shell's startup file (e.g., `.bashrc` if your shell is `bash`).
+- `wget -qO - https://raw.githubusercontent.com/luislavaire/shop/main/bin/shop | bash -s i luislavaire/shop`.
+- `echo "export PATH=$PATH:~/.shop/.bin" >> ~/.bashrc` (if your shell is `bash`, of course).
 
 
 ## Usage.
@@ -29,5 +29,5 @@ to your shell's startup file (e.g., `.bashrc` if your shell is `bash`).
 
 ## Package repository structure.
 
-- Files that are to be consumed by users must be placed under `lib/`.
-- Executable files in `bin/` will be available in `$PATH`.
+- Libraries should be placed in `lib/` (if you want to use [`bass`](https://github.com/luislavaire/bass)).
+- Executables should be placed in `bin/`.
