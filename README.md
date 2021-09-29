@@ -3,7 +3,7 @@
 > _Minimal package manager for UNIX shells._
 
 `shop` is a simplistic package manager for UNIX shells (`bash`, `mksh`, etc.),
-intended to work alongside [`bass`](https://github.com/luislavaire/bass), though the latter is not required.
+intended to work alongside [`bass`](https://github.com/Nitrux/bass), though the latter is not required.
 
 
 - Packages are installed in `~/.shop/`.
@@ -12,7 +12,7 @@ intended to work alongside [`bass`](https://github.com/luislavaire/bass), though
 
 ## Installation.
 
-- `wget -qO - https://raw.githubusercontent.com/luislavaire/shop/main/bin/shop | bash -s i luislavaire/shop`.
+- `wget -qO - https://raw.githubusercontent.com/Nitrux/shop/main/bin/shop | bash -s i Nitrux/shop`.
 - `echo "export PATH=$PATH:~/.shop/.bin" >> ~/.bashrc` (if your shell is `bash`, of course).
 
 
@@ -29,5 +29,5 @@ intended to work alongside [`bass`](https://github.com/luislavaire/bass), though
 
 ## Package repository structure.
 
-- Libraries should be placed in `lib/` (if you want to use [`bass`](https://github.com/luislavaire/bass)).
+- Libraries should be placed in `lib/` (if you want to use [`bass`](https://github.com/Nitrux/bass)).
 - Executables should be placed in `bin/`.
