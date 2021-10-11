@@ -63,7 +63,7 @@ i () {
         test $? = 0 || exit 1
 
         find "$shop_root/$P" -maxdepth 1 -mindepth 1 -type f -perm -u+x \
-            -exec ln -sf "$shop_root/{}" "$shop_root/.bin/" \;
+            -exec ln -rfs {} "$shop_root/.bin/" \;
     done
 }
 
