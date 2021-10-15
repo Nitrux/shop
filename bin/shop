@@ -6,17 +6,16 @@
 _e () { echo "$*"; exit 1; }
 
 
-    # Concatenate a file.
+    # Concatenates a file directly or from a package.
 
-add () {
+:: () {
     # $1 might be specified in the following formats:
     #   <file>
     #   <repo>:<file>
     IFS=: read a b <<< "$1"
-    test "$b" || { cat "$a"; return; }
+    test -f "$a" || { cat "$a"; return; }
 
-    # If the package is not installed, attempt to install it.
-    test -d "$shop_root/$a/lib/$b" || i "$a"
+    test -f "$shop_root/$a/lib/$b" || i "$a"    # If the package is not installed, attempt to install it.
     cat "$shop_root/$a/lib/$b"
 }
 
@@ -24,23 +23,21 @@ add () {
     # Assembles a script from a list of packages.
 
 b () {
-    def () { local K; for K; do eval "$K () { $K+=( \"\$@\" ); __bcf_g__=$K; }"; done; }
-      , () { "$__bcf_g__" "$@"; }   # These lines come from bcf.
+    def () { for K; do eval "$K () { $K+=( \"\$@\" ); __bcf_g=$K; }"; done; }
+      , () { "$__bcf_g" "$@"; }   # These lines come from bcf.
 
-    # The groups in shopfile.
-    def Main Target Include
+
+    def Main Target Include     # The groups in shopfile.
         source ./shopfile
 
-    # Override Target if needed.
-    Target="${1:-${Target}}"
+    Target="${1:-${Target}}"    # Override Target if needed.
 
-    # Use the shebang from $Main.
-    read sb < "$Main"
-        echo "$sb" > "$Target"          # We want to truncate this file (>) as it might not
-                                        # be empty (as in a failed build, for instance).
+    read sb < "$Main"           # Use the shebang from Main.
+        echo "$sb" > "$Target"  # We want to truncate this file (>) as it might not
+                                # be empty (as in a failed build, for instance).
 
-    for P in "${Include[@]}" "$Main"    # Append all passed files to $Target.
-        do add "$P"; done >> "$Target"
+    for P in "${Include[@]}" "$Main"
+        do :: "$P"; done >> "$Target"  # Append all passed files to $Target.
 
     chmod +x "$Target"
     echo "'$Target': Built."
