@@ -54,12 +54,12 @@ i () {
         test -d "$P" && continue     # The package is already installed.
 
         IFS=: read r t <<< "$P"
-        test "$t" && { git clone --depth 1 "https://github.com/$r" -b "$t" "$shop_root/$r:$t"; } \
-                  || { git clone --depth 1 "https://github.com/$r" "$shop_root/$r"; }
+        test "$t" && { git clone --depth 1 "https://github.com/$r" -b "$t" "$shop_root/$P"; } \
+                  || { git clone --depth 1 "https://github.com/$r" "$shop_root/$P"; }
 
         test $? = 0 || exit 1
 
-        find "$shop_root/$P" -maxdepth 1 -mindepth 1 -type f -perm -u+x \
+        find "$shop_root/$P/bin" -type f -perm -u+x \
             -exec ln -rfs {} "$shop_root/.bin/" \;
     done
 }
