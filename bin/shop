@@ -1,104 +1,79 @@
 #! /bin/bash
 
 
-    # Aborts the application with an error message.
-
-_e () { echo "$*"; exit 1; }
+mkdir -p ~/.shop/.bin
 
 
-    # Concatenates a file directly or from a package.
-
-:: () {
-    # $1 might be specified in the following formats:
-    #   <file>
-    #   <repo>:<file>
-    IFS=: read a b <<< "$1"
-    test -f "$a" || { cat "$a"; return; }
-
-    test -f "$shop_root/$a/lib/$b" || i "$a"    # If the package is not installed, attempt to install it.
-    cat "$shop_root/$a/lib/$b"
-}
+op="$1"; shift
+case "$op" in
+    # Ensure the given packages are not present in the system.
+    ( r )   for P; do rm -rf ~/.shop/"$P"; done;;
 
 
-    # Assembles a script from a list of packages.
-
-b () {
-    def () { for K; do eval "$K () { $K+=( \"\$@\" ); __bcf_g=$K; }"; done; }
-      , () { "$__bcf_g" "$@"; }   # These lines come from bcf.
+    # List installed packages.
+    ( l )   shopt -s nullglob; cd ~/.shop; printf "%s\n" */*;;
 
 
-    def Main Target Include     # The groups in shopfile.
-        source ./shopfile
-
-    Target="${1:-${Target}}"    # Override Target if needed.
-
-    read sb < "$Main"           # Use the shebang from Main.
-        echo "$sb" > "$Target"  # We want to truncate this file (>) as it might not
-                                # be empty (as in a failed build, for instance).
-
-    for P in "${Include[@]}" "$Main"
-        do :: "$P"; done >> "$Target"  # Append all passed files to $Target.
-
-    chmod +x "$Target"
-    echo "'$Target': Built."
-}
+    # Update the given package or all packages.
+    ( u )   test $# = 0 && set ~/.shop/*/*
+            for P; do (cd "$P"; git pull); done;;
 
 
-    # Installs a package.
+    # Install a package.
+    ( i )   # P might be specified in the following formats:
+            #   <repo>
+            #   <repo>:<tag>
+            for P; do
+                test -d "$P" && continue     # The package is already installed.
 
-i () {
-    # P might be specified in the following formats:
-    #   <repo>
-    #   <repo>:<tag>
-    for P; do
-        test -d "$P" && continue     # The package is already installed.
+                IFS=: read r t <<< "$P"
+                test "$t" && { git clone --depth 1 "https://github.com/$r" -b "$t" ~/.shop/"$P"; } \
+                          || { git clone --depth 1 "https://github.com/$r" ~/.shop/"$P"; }
 
-        IFS=: read r t <<< "$P"
-        test "$t" && { git clone --depth 1 "https://github.com/$r" -b "$t" "$shop_root/$P"; } \
-                  || { git clone --depth 1 "https://github.com/$r" "$shop_root/$P"; }
+                test $? = 0 || exit 1
 
-        test $? = 0 || exit 1
-
-        find "$shop_root/$P/bin" -type f -perm -u+x \
-            -exec ln -rfs {} "$shop_root/.bin/" \;
-    done
-}
+                find ~/.shop/"$P/bin" -type f -perm -u+x \
+                    -exec ln -rfs {} ~/.shop/.bin/ \;
+            done;;
 
 
-    # Updates the given package or all packages.
+    # Assemble a script from a list of packages.
+    ( b )   # These lines come from bcf.
+            def () { for K; do eval "$K () { $K+=( \"\$@\" ); __bcf_g=$K; }"; done; }
+              , () { "$__bcf_g" "$@"; }
 
-u () {
-    test $# = 0 \
-        && set "$shop_root/"*/*
+            # Concatenates a file directly or from a package.
+            # $1 might be specified in the following formats:
+            #   <file>
+            #   <repo>:<file>
+            cat_pf () {
+                IFS=: read a b <<< "$1"
+                test -f "$a" || { cat "$a"; return; }
+                test -f ~/.shop/"$a/lib/$b" || i "$a"    # If the package is not installed, try to install it.
+                cat ~/.shop/"$a/lib/$b"
+            }
 
-    for P; do (cd "$P"; git pull); done
-}
+            def Main Target Include     # The groups in shopfile.
+                source ./shopfile
+
+            Target="${1:-${Target}}"    # Override Target if needed.
+
+            read sb < "$Main"           # Use the shebang from Main.
+                echo "$sb" > "$Target"  # We want to truncate this file (>) as it might not
+                                        # be empty (as in a failed build, for instance).
+
+            for P in "${Include[@]}" "$Main"
+                do cat_pf "$P"; done >> "$Target"  # Append all passed files to $Target.
+
+            chmod +x "$Target"
+            echo "'$Target': Built.";;
 
 
-    # Ensures the given packages are not present in the system.
-
-r () { for P; do rm -rf "$shop_root/$P"; done; }
-
-
-    # Lists installed packages.
-
-l () { shopt -s nullglob; (cd "$shop_root"; printf "%s\n" */*); }
-
-
-
-
-    # Dispatcher.
-
-shop_root=~/.shop
-mkdir -p "$shop_root/.bin"
-
-case "$1" in
-    ( [iurlb] ) "$@";;
-
+    # On anything else show this help text.
     ( * )       _ () { echo -e "$*"; }
-                _ "Usage: shop [\e[3;32mCMD\e[m]"
+                _ "Usage: shop [CMD]"
                 _ ""
-                _ "\e[3;32mCMD\e[m is any of:"
+                _ "CMD is any of:"
                 _ ""
                 _ "  i [pkgs]   Install the given packages."
                 _ "             shop understands this format: \e[3;32m<user/repo>[/tag]\e[m."
