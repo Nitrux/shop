@@ -16,7 +16,7 @@ case "$op" in
 
     # Update the given package or all packages.
     ( u )   test $# = 0 && set ~/.shop/*/*
-            for P; do (cd "$P"; git pull); done;;
+            for P; do (2> /dev/null cd "$P" && git pull); done;;
 
 
     # Install a package.
