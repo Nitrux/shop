@@ -58,6 +58,6 @@ Include Nitrux/bcf:bcf      # The frist two are files from shop packages.
 Convention over configuration:
 
 - Repositories must be hosted at GitHub.
-- For users to include your libraries, place them in `lib/`.
-- For users to run your scripts, place them in `bin/`.
+- For users to be able to include your libraries, place them in `lib/`.
+- For users to be able to run your scripts, place them in `bin/`.
 - A shebang is __mandatory__ in your main script.
