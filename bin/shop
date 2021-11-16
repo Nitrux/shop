@@ -37,7 +37,8 @@ case "$op" in
                 test $? = 0 || exit 1
 
                 find ~/.shop/"$P/bin" -type f -perm -u+x \
-                    -exec ln -rfs {} ~/.shop/.bin/ \;
+                    -exec ln -rfs {} ~/.shop/.bin/ \; \
+                    2> /dev/null
             done;;
 
 
